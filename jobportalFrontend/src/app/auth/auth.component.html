@@ -1,0 +1,110 @@
+<div class="row">
+  <div class="col-xs-12 col-md-6 col-md-offset-3">
+    <div class="alert alert-danger" *ngIf="error">
+      <p>{{ error }}</p>
+    </div>
+    <div *ngIf="isLoading" style="text-align: center;">
+      <app-loading-spinner></app-loading-spinner>
+    </div>
+    <section class="section-form">
+      <form #authForm="ngForm" (ngSubmit)="onSubmit(authForm)" *ngIf="!isLoading" class="login-form">
+        <div class="row"><h2>Job Portal Authentication Page</h2></div>
+
+        <div class="row form-group">
+          <div class="col span-1-of-3">
+            <label for="email">E-Mail</label>
+          </div>
+          <div class="col span-2-of-3">
+            <input
+            type="email"
+            id="email"
+            class="form-control"
+            ngModel
+            name="email"
+            required
+            email
+          />
+          </div>
+        </div>
+
+        <div class="row form-group">
+          <div class="col span-1-of-3">
+            <label for="password">Password</label>
+          </div>
+          <div class="col span-2-of-3">
+            <input
+            type="password"
+            id="password"
+            class="form-control"
+            ngModel
+            name="password"
+            required
+          />
+          </div>
+        </div>
+
+        <div class="row form-group" *ngIf="!isLoginMode">
+          <div class="col span-1-of-3">
+            <label for="firstname">Firstname</label>
+          </div>
+          <div class="col span-2-of-3">
+            <input
+            type="text"
+            id="firstname"
+            class="form-control"
+            ngModel
+            name="firstname"
+            required
+          />
+          </div>
+        </div>
+
+        <div class="row form-group" *ngIf="!isLoginMode">
+          <div class="col span-1-of-3">
+            <label for="lastname">Lastname</label>
+          </div>
+          <div class="col span-2-of-3">
+            <input
+            type="text"
+            id="lastname"
+            class="form-control"
+            ngModel
+            name="lastname"
+            required
+          />
+          </div>
+        </div>
+
+        <div class="row form-group" *ngIf="!isLoginMode">
+          <div class="col span-1-of-3">
+            <label for="company">Company</label>
+          </div>
+          <div class="col span-2-of-3">
+            <input
+            type="text"
+            id="company"
+            class="form-control"
+            ngModel
+            name="company"
+            required
+          />
+          </div>
+        </div>
+
+        <div class="buttons-box">
+          <button
+            class="btn btn-full"
+            type="submit"
+            [disabled]="!authForm.valid"
+          >
+            {{ isLoginMode ? 'Login' : 'Sign Up' }}
+          </button>
+          |
+          <button class="btn btn-ghost" (click)="onSwitchMode()" type="button">
+            Switch to {{ isLoginMode ? 'Sign Up' : 'Login' }}
+          </button>
+        </div>
+      </form>
+  </section>
+  </div>
+</div>

@@ -1,0 +1,64 @@
+@import '../../assets/css/grid.css';
+@import '../../assets/css/normalize.css';
+
+.login-form{
+  position: absolute;
+  top:50%;
+  left:50%;
+  transform: translate(-50%,-50%);
+}
+input[type=text],
+input[type=email],
+input[type=password]{
+  width: 100%;
+  padding: 7px;
+  border-radius: 3px;
+  border: 1px solid #bebebe;
+}
+
+label {
+  font-size: 130%;
+}
+
+.buttons-box{
+  margin-top: 20px;
+}
+
+.btn:link,
+.btn:visited{
+    display: inline-block;
+    padding: 10px 30px;
+    font-weight: 300;
+    text-decoration: none;
+    border-radius: 200px;
+    transition: background-color 0.2s, border 0.2s, color 0.2s;
+}
+
+.btn-full:link,
+.btn-full:visited {
+
+    background-color:red;
+    border: 1px solid red;
+    color:#fff;
+    margin-right: 15px;
+}
+
+.btn-ghost:link,
+.btn-ghost:visited {
+    border: 1px solid red;
+    color:red;
+}
+
+.btn:hover,
+.btn:active{
+    background-color:red;
+}
+
+.btn-full:hover,
+.btn-full:active,
+.btn-ghost:hover,
+.btn-ghost:active {
+    font-size: 150%;
+    border: 2px solid red;
+    color:#fff;
+}
