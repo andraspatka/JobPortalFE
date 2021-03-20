@@ -7,7 +7,7 @@ import {User} from './user.model';
 import { JwtHelperService } from '@auth0/angular-jwt';
 
 export interface AuthResponseData {
-  jwtToken:string
+  loggedUsers: [];
 }
 
 @Injectable({ providedIn: 'root' })
@@ -34,7 +34,7 @@ export class AuthService {
         catchError(this.handleError),
         tap(resData => {
           this.handleAuthentication(
-            resData.jwtToken
+            resData
           );
         })
       );
@@ -52,8 +52,9 @@ export class AuthService {
       .pipe(
         catchError(this.handleError),
         tap(resData => {
+          console.log(resData);
           this.handleAuthentication(
-            resData.jwtToken
+            resData
           );
         })
       );
@@ -67,8 +68,10 @@ export class AuthService {
     return throwError(errorMessage);
   }
 
-  private handleAuthentication(jwtToken:string)
+  private handleAuthentication(loggedUsers)
   {
+    const loggedUser = [...loggedUsers];
+    const jwtToken = loggedUser[0].body;
     const decodedToken = this.helper.decodeToken(jwtToken);
     console.log(decodedToken);
     const user = new User(decodedToken.id,decodedToken.username,decodedToken.role);

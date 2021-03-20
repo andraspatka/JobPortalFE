@@ -1,10 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { AuthService } from './auth.service';
+import {LoginData} from './loginData';
 export interface AuthResponseData {
-  jwtToken:string
+  loggedUsers: LoginData[];
 }
 
 @Component({
@@ -14,7 +15,7 @@ export interface AuthResponseData {
 })
 export class AuthComponent  {
 
-  constructor(private authService: AuthService,private router: Router){}
+  constructor(private authService: AuthService, private router: Router){}
 
   isLoginMode = true;
   isLoading = false;
