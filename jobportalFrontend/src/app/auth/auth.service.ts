@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { throwError, BehaviorSubject } from 'rxjs';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Router } from '@angular/router';
-import { catchError, tap } from 'rxjs/operators';
+import { catchError, map, tap } from 'rxjs/operators';
 import {User} from './user.model';
 import { JwtHelperService } from '@auth0/angular-jwt';
 
@@ -17,7 +17,7 @@ export class AuthService {
 
   constructor(private http: HttpClient, private router: Router) {}
 
-  signup(email: string, password: string,firstname:string,lastname:string,company:string) {
+  signup(email: string, password: string,firstname:string,lastname:string,company:string,role:string) {
     return this.http
       .post<AuthResponseData>(
         'http://localhost:2222/register',
@@ -26,7 +26,7 @@ export class AuthService {
           password: password,
           firstname:firstname,
           lastname:lastname,
-          role:1,
+          role:role,
           company:company,
         }
       )
@@ -77,9 +77,6 @@ export class AuthService {
     const user = new User(decodedToken.id,decodedToken.username,decodedToken.role);
     const expirationDate = new Date(new Date().getTime() + decodedToken.exp * 1000);
     console.log(expirationDate);
-    //const expirationDate = this.helper.getTokenExpirationDate(decodedToken);
-    //const user = decodedToken;
-    //console.log( "Decoded token:" + user);
     this.user.next(user);
   }
   logout() {

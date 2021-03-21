@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { AuthComponent } from './auth/auth.component';
+import { AuthGuard } from './auth/auth.guard';
 import { JobsPortalStartComponent } from './jobs-portal/jobs-portal-start/jobs-portal-start.component';
 import { JobsPortalComponent } from './jobs-portal/jobs-portal.component';
 
@@ -8,6 +9,7 @@ const appRoutes: Routes = [
   {path:'',redirectTo:'/auth',pathMatch:'full'},
   {
     path:'jobs-portal',
+    canActivate:[AuthGuard],
     component: JobsPortalComponent,
     children:[
       {path:'',component:JobsPortalStartComponent}

@@ -19,6 +19,9 @@ export class AuthComponent  {
 
   isLoginMode = true;
   isLoading = false;
+  employeeCheckbox=false;
+  employerCheckbox=false;
+  adminCheckbox=false;
   error: string = null;
 
   onSwitchMode() {
@@ -34,6 +37,13 @@ export class AuthComponent  {
     const firstname = form.value.firstname;
     const lastname = form.value.lastname;
     const company = form.value.company;
+    let role="";
+    if(this.adminCheckbox == true)
+        role = "ADMIN";
+    else if(this.employeeCheckbox == true)
+       role = "EMPLOYEE";
+    else if(this.employerCheckbox == true)
+      role = "EMPLOYER";
     let authObs: Observable<AuthResponseData>;
 
     this.isLoading = true;
@@ -41,7 +51,7 @@ export class AuthComponent  {
     if (this.isLoginMode) {
       authObs = this.authService.login(email, password);
     } else {
-      authObs = this.authService.signup(email, password,firstname,lastname,company);
+      authObs = this.authService.signup(email, password,firstname,lastname,company,role);
     }
 
     authObs.subscribe(

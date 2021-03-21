@@ -91,6 +91,27 @@
           </div>
         </div>
 
+        <div class="row form-group" *ngIf="!isLoginMode">
+          <div class="col span-1-of-3">
+            <label for="role">Choose Role</label>
+          </div>
+          <div class="col span-2-of-3">
+            <ul class="checkboxes">
+              <li>
+                <label for="role">Employee</label>
+                <input [(ngModel)]="employeeCheckbox" type="checkbox"/>
+              </li>
+              <li>
+                <label for="role">Employer</label>
+                <input [(ngModel)]="employerCheckbox" type="checkbox"/>
+              </li>
+              <li>
+                <label for="role">Administrator</label>
+                <input [(ngModel)]="adminCheckbox" type="checkbox"/>
+              </li>
+            </ul>
+          </div>
+        </div>
         <div class="buttons-box">
           <button
             class="btn btn-full"
