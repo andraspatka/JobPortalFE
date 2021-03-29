@@ -3,11 +3,10 @@ import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { AuthService } from './auth.service';
-import {LoginData} from './loginData';
 export interface AuthResponseData {
-  loggedUsers: LoginData[];
+  status:string,
+  body:string
 }
-
 @Component({
   selector: 'app-auth',
   templateUrl: './auth.component.html',
@@ -23,6 +22,7 @@ export class AuthComponent  {
   employerCheckbox=false;
   adminCheckbox=false;
   error: string = null;
+  message:string = null;
 
   onSwitchMode() {
     this.isLoginMode = !this.isLoginMode;
@@ -37,36 +37,43 @@ export class AuthComponent  {
     const firstname = form.value.firstname;
     const lastname = form.value.lastname;
     const company = form.value.company;
-    let role="";
-    if(this.adminCheckbox == true)
-        role = "ADMIN";
-    else if(this.employeeCheckbox == true)
-       role = "EMPLOYEE";
-    else if(this.employerCheckbox == true)
-      role = "EMPLOYER";
     let authObs: Observable<AuthResponseData>;
-
     this.isLoading = true;
 
     if (this.isLoginMode) {
       authObs = this.authService.login(email, password);
+      authObs.subscribe(
+        resData => {
+          if(resData.status !== "OK"){
+            this.error = resData.body;
+          }else{
+            this.message = resData.body;
+          }
+          this.isLoading = false;
+          this.router.navigate(['/jobs-portal']);
+        },
+        errorMessage => {
+          this.error = errorMessage;
+          this.isLoading = false;
+        }
+      );
     } else {
-      authObs = this.authService.signup(email, password,firstname,lastname,company,role);
+      authObs = this.authService.signup(email, password,firstname,lastname,company);
+      authObs.subscribe(
+        resData => {
+          if(resData.status !== "OK"){
+            this.error = resData.body;
+          }else
+            this.message = resData.body;
+          this.isLoading = false;
+          this.router.navigate(['/auth']);
+        },
+        errorMessage => {
+          this.error = errorMessage;
+          this.isLoading = false;
+        }
+      );
     }
-
-    authObs.subscribe(
-      resData => {
-        console.log(resData);
-        this.isLoading = false;
-        this.router.navigate(['/jobs-portal']);
-      },
-      errorMessage => {
-        console.log(errorMessage);
-        this.error = errorMessage;
-        this.isLoading = false;
-      }
-    );
     form.reset();
   }
-
 }
