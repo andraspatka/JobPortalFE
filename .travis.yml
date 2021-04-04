@@ -1,0 +1,21 @@
+language: node_js
+sudo: required
+
+services:
+  - docker
+
+install: true
+notifications:
+  email: false
+
+os: linux
+dist: bionic
+node_js:
+  - 12
+
+deploy:
+  provider: script
+  script: bash deploy.sh
+  skip_cleanup: true
+  on:
+    branch: setup-cd
