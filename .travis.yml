@@ -13,6 +13,13 @@ dist: bionic
 node_js:
   - 12
 
+branches:
+  only:
+    - setup-cd
+
+script:
+  - npm install -g @angular/cli
+
 deploy:
   provider: script
   script: bash deploy.sh

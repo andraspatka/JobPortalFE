@@ -2,9 +2,6 @@
 echo "Installing Heroku CLI"
 curl https://cli-assets.heroku.com/install.sh | sh
 
-echo "Install angular CLI"
-npm install -g @angular/cli
-
 ng build --prod
 
 echo "Logging into Heroku container registry"
