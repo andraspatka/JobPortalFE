@@ -5,6 +5,8 @@ import { Router } from '@angular/router';
 import { catchError, map, tap } from 'rxjs/operators';
 import {User} from './user.model';
 import { JwtHelperService } from '@auth0/angular-jwt';
+import {environment} from '../../environments/environment';
+
 export interface AuthResponseData {
   status:string,
   body:string
@@ -18,7 +20,7 @@ export class AuthService {
   signup(email: string, password: string,firstname:string,lastname:string,company:string) {
     return this.http
       .post<AuthResponseData>(
-        'http://localhost:2222/users',
+        `${environment.apiUrl}/users`,
         {
           email: email,
           password: password,
@@ -38,7 +40,7 @@ export class AuthService {
   login(email: string, password: string) {
     return this.http
       .post<AuthResponseData>(
-        'http://localhost:2222/login',
+        `${environment.apiUrl}/login`,
         {
           email: email,
           password: password

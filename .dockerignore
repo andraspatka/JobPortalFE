@@ -1,0 +1,15 @@
+.dockerignore
+.editorconfig
+.git
+.gitignore
+.idea
+README.md
+angular.json
+coverage
+e2e
+node_modules
+package.json
+package-lock.json
+src
+tsconfig.json
+tslint.json
