@@ -23,14 +23,12 @@ export class AuthGuard implements CanActivate {
     | UrlTree
     | Promise<boolean | UrlTree>
     | Observable<boolean | UrlTree> {
-    return this.authService.user.pipe(
+    return this.authService.role.pipe(
       take(1),
-      map(user => {
-        const isAuth = !!user;
-        if (isAuth) {
+      map(role => {
+        if(role === "ADMIN")
           return true;
-        }
-        return this.router.createUrlTree(['/auth']);
+        return false;
       })
       // tap(isAuth => {
       //   if (!isAuth) {

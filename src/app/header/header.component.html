@@ -1,6 +1,7 @@
 <div class="row">
   <ul class="main-nav">
     <li><a style="cursor: pointer;" (click)="onNewPosting() ">Create new posting</a></li>
+    <li><a style="cursor: pointer;" (click)="onSeeMyRequests() ">See My Requests</a></li>
     <li  *ngIf="isAuthenticated"><a style="cursor: pointer;" (click)="onLogout()">Logout</a> </li>
   </ul>
 </div>

@@ -1,0 +1,19 @@
+<table>
+  <tr>
+		<th style="width:50%; margin-left:50px"><h2>My Requests</h2></th>
+    <th></th>
+  </tr>
+
+  <tr *ngFor="let reqElem of myrequests; let i = index">
+    <td>
+      <h3 class="list-group-item-heading">{{ reqElem.requestedByFirstName }} &#45; {{reqElem.requestedByLastName}}</h3>
+        <p class="list-group-item-text">{{reqElem.requestedByEmail }}</p>
+        <p class="list-group-item-text">{{reqElem.status }}</p>
+      </td>
+    <td><button class="btn" (click)="onAccept(reqElem.id)"
+      type="button"> Accept Posting</button> </td>
+      <td><button class="btn" (click)="onDecline(reqElem.id)"
+        type="button"> Decline Posting</button> </td>
+  </tr>
+</table>
+

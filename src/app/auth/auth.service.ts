@@ -19,6 +19,27 @@ export class AuthService {
   helper = new JwtHelperService();
 
   constructor(private http: HttpClient, private router: Router) {}
+
+  get role(){
+    return this.user.asObservable().pipe(
+      map(user=>{
+        if(user)
+          return user.role;
+        else
+          return null;
+      })
+    );
+  }
+  get username(){
+    return this.user.asObservable().pipe(
+      map(user=>{
+        if(user)
+          return user.username;
+        else
+          return null;
+      })
+    );
+  }
   get userId() {
     return this.user.asObservable().pipe(
       map(user => {

@@ -6,28 +6,34 @@ import { JobsPortalEditPostingComponent } from './jobs-portal/jobs-portal-edit-p
 import { JobsPortalListComponent } from './jobs-portal/jobs-portal-list/jobs-portal-list.component';
 import { JobsPortalNewPostingComponent } from './jobs-portal/jobs-portal-new-posting/jobs-portal-new-posting.component';
 import { JobsPortalComponent } from './jobs-portal/jobs-portal.component';
+import { RequestsComponent } from './requests/requests.component';
 
 const appRoutes: Routes = [
-  { path: '', redirectTo: '/jobs-portal', pathMatch: 'full' },
+  { path: '', redirectTo: '/auth', pathMatch: 'full' },
   {
     path:'jobs-portal',
-    canLoad:[AuthGuard],
+    //canLoad:[AuthGuard],
     component: JobsPortalComponent
   },
   {
     path:'new-posting',
-    canLoad:[AuthGuard],
+    //canLoad:[AuthGuard],
     component:JobsPortalNewPostingComponent
 
   },
   {
     path:'edit-posting/:id',
-    canLoad:[AuthGuard],
+    //canLoad:[AuthGuard],
     component:JobsPortalEditPostingComponent
   },
   {
     path:'auth',
     component:AuthComponent
+  },
+  {
+    path:'requests',
+    component:RequestsComponent,
+    //canActivate:[AuthGuard],
   }
 ];
 

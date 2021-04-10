@@ -13,6 +13,7 @@ import { JobsPortalListComponent } from './jobs-portal/jobs-portal-list/jobs-por
 import { JobsPortalItemComponent } from './jobs-portal/jobs-portal-list/jobs-portal-item/jobs-portal-item.component';
 import { JobsPortalEditPostingComponent } from './jobs-portal/jobs-portal-edit-posting/jobs-portal-edit-posting.component';
 import { JobsPortalNewPostingComponent } from './jobs-portal/jobs-portal-new-posting/jobs-portal-new-posting.component';
+import { RequestsComponent } from './requests/requests.component';
 
 @NgModule({
   declarations: [
@@ -24,7 +25,8 @@ import { JobsPortalNewPostingComponent } from './jobs-portal/jobs-portal-new-pos
     JobsPortalItemComponent,
     JobsPortalListComponent,
     JobsPortalEditPostingComponent,
-    JobsPortalNewPostingComponent
+    JobsPortalNewPostingComponent,
+    RequestsComponent
   ],
   imports: [
     BrowserModule,

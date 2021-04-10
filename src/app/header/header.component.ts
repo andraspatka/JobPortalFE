@@ -38,4 +38,8 @@ export class HeaderComponent implements OnInit {
   ngOnDestroy() {
     this.userSub.unsubscribe();
   }
+  onSeeMyRequests() {
+    this.router.navigate(['/requests']);
+
+  }
 }
