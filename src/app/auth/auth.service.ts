@@ -18,6 +18,7 @@ export class AuthService {
   user = new BehaviorSubject<User>(null);
   helper = new JwtHelperService();
 
+  constructor(private http: HttpClient, private router: Router) {}
   get userId() {
     return this.user.asObservable().pipe(
       map(user => {
