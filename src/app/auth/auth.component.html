@@ -82,16 +82,16 @@
           <div class="col span-1-of-3">
             <label for="company">Company</label>
           </div>
-          <div class="col span-2-of-3">
-            <input
-            type="text"
-            id="company"
-            class="form-control"
-            ngModel
-            name="company"
-            required
-          />
-          </div>
+          <select class="col span-2-of-3"
+                  id="company"
+                  name="selectedCompany"
+                  ngModel
+                  required
+          >
+            <option *ngFor="let company of companies" [value]="company.name">
+              {{company.name}}
+            </option>
+          </select>
         </div>
 
         <div class="buttons-box">
