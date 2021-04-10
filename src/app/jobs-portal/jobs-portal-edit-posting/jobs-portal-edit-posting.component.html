@@ -1,0 +1,81 @@
+<!-- <div class="row">
+  <ul class="main-nav">
+    <li><a style="cursor: pointer;" (click)="onGoBack() ">Go Back</a></li>
+  </ul>
+</div>
+<router-outlet></router-outlet> -->
+
+<div class="row">
+  <div class="col-xs-12">
+    <form [formGroup]="postingForm" (ngSubmit)="onSubmit()" class="edit-form">
+
+      <div class="row form-group">
+        <div class="col span-1-of-3">
+          <label for="name">Name</label>
+        </div>
+        <div class="col span-2-of-3">
+          <input
+              type="text"
+              id="name"
+              formControlName="name"
+              class="form-control">
+        </div>
+      </div>
+
+      <div class="row form-group">
+        <div class="col span-1-of-3">
+          <label for="description">Description</label>
+        </div>
+        <div class="col span-2-of-3">
+            <textarea
+              type="text"
+              id="description"
+              class="form-control"
+              formControlName="description"
+              rows="6"></textarea>
+        </div>
+      </div>
+
+      <div class="row form-group">
+        <div class="col span-1-of-3">
+            <label for="requirements">Requirements</label>
+        </div>
+        <div class="col span-2-of-3">
+            <textarea
+              type="text"
+              id="requirements"
+              class="form-control"
+              formControlName="requirements"
+              rows="6"></textarea>
+          </div>
+        </div>
+      <div class="row form-group">
+        <div class="col span-1-of-3">
+            <label for="deadline">Available until</label>
+        </div>
+        <div class="col span-2-of-3">
+            <input
+              type="date"
+              id="deadline"
+              min="2019-01-02"
+              max="2050-12-31"
+              class="form-control"
+              formControlName="deadline"
+              >
+          </div>
+        </div>
+      <div class="row form-group">
+        <div class="col span-1-of-2">
+          <button
+            type="submit"
+            class="btn btn-success"
+            [disabled]="!postingForm.valid">Edit</button>
+        </div>
+        <div class="col span-1-of-2">
+          <button type="button" (click)="onCancel()">Cancel</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+

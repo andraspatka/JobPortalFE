@@ -1,0 +1,8 @@
+
+<div class="pull-left">
+<h3 class="list-group-item-heading">{{ posting.name }}</h3>
+  <h4>{{posting.postedAt | date : 'dd/MM/yyyy'}} &#45; {{posting.deadline | date :'dd/MM/yyyy' }}</h4>
+  <p class="list-group-item-text">{{posting.description }}</p>
+  <p class="list-group-item-text">{{posting.requirements }}</p>
+</div>
+

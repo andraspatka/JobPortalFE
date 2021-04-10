@@ -7,7 +7,7 @@
 .main-nav li {
   display: inline;
   margin-left: 40px;
-  font-size: 120%;
+  font-size: 100%;
 }
 
 
@@ -26,4 +26,21 @@
 .main-nav li a:hover,
 .main-nav li a:active{
     border-bottom: 2px solid red;
+}
+
+input[type=text],
+input[type=date],
+textarea,
+select
+{
+  width: 100%;
+  padding: 7px;
+  border-radius: 3px;
+  border: 1px solid #bebebe;
+}
+.create-form{
+  margin-top: 50px;
+}
+label {
+  font-size: 120%;
 }

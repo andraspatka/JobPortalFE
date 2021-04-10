@@ -1,0 +1,35 @@
+<!-- <div class="row">
+  <div class="col-xs-6">
+    <button class="btn btn-success" (click)="onNewPosting()">New</button>
+  </div>
+  <div class="col-xs-6">
+    <button class="btn btn-success" (click)="onEditPosting()">Edit</button>
+  </div>
+</div>
+<hr> -->
+<table>
+  <tr>
+		<th style="width:50%"><h2>List of Postings</h2></th>
+    <th></th>
+  </tr>
+
+  <tr *ngFor="let postingElem of postings; let i = index">
+    <td>
+      <h3 class="list-group-item-heading">{{ postingElem.name }}</h3>
+        <h4>{{postingElem.postedAt | date : 'dd/MM/yyyy'}} &#45; {{postingElem.deadline | date :'dd/MM/yyyy' }}</h4>
+        <p class="list-group-item-text">{{postingElem.description }}</p>
+        <p class="list-group-item-text">{{postingElem.requirements }}</p>
+      </td>
+    <td><button class="btn" (click)="onEditPosting(postingElem.id)"
+      type="button"> Edit Posting</button> </td>
+      <td><button class="btn" (click)="onDeletePosting(postingElem.id)"
+        type="button"> Delete Posting</button> </td>
+  </tr>
+</table>
+<div class="row form-group">
+  <div class="col span-3-of-3">
+
+  </div>
+</div>
+
+
