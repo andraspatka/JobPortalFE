@@ -1,4 +1,4 @@
-h2::before{
+.pull-left::after{
   display: block;
   height: 2px;
   background-color:red;

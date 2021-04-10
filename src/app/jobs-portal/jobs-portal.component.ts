@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { JobsPortalService } from './jobs-portal.service';
 
 @Component({
   selector: 'app-jobs-portal',
@@ -7,9 +8,11 @@ import { Component, OnInit } from '@angular/core';
 })
 export class JobsPortalComponent implements OnInit {
 
-  constructor() { }
+  constructor(private jobPortalService:JobsPortalService) { }
 
   ngOnInit() {
+    this.jobPortalService.fetchPostings().subscribe(()=>{
+      console.log('S-a apelat fetchPostings');
+    });
   }
-
 }

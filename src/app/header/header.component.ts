@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { AuthService } from '../auth/auth.service';
 
@@ -13,7 +14,9 @@ export class HeaderComponent implements OnInit {
   private userSub: Subscription;
   user = null;
   constructor(
-    private authService: AuthService
+    private authService: AuthService,
+    private router:Router,
+    private route:ActivatedRoute
   ) {}
 
   ngOnInit() {
@@ -24,12 +27,8 @@ export class HeaderComponent implements OnInit {
     });
   }
 
-  onSaveData() {
-    console.log("save data");
-  }
-
-  onFetchData() {
-    console.log("fetch data");
+  onNewPosting() {
+    this.router.navigate(['/new-posting']);
   }
 
   onLogout() {

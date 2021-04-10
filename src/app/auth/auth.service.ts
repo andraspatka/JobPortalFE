@@ -18,10 +18,19 @@ export class AuthService {
   user = new BehaviorSubject<User>(null);
   helper = new JwtHelperService();
 
-  constructor(private http: HttpClient, private router: Router) {
+  get userId() {
+    return this.user.asObservable().pipe(
+      map(user => {
+        if (user) {
+          return user.id;
+        } else {
+          return null;
+        }
+      })
+    );
   }
 
-  signup(email: string, password: string, firstname: string, lastname: string, company: string) {
+  signup(email: string, password: string,firstname:string,lastname:string,company:string) {
     return this.http
       .post<AuthResponseData>(
         `${environment.apiUrl}/users`,
