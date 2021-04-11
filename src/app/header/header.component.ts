@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { AuthService } from '../auth/auth.service';
+import { RequestsService } from '../requests/requests.service';
 
 @Component({
   selector: 'app-header',
@@ -12,24 +14,31 @@ export class HeaderComponent implements OnInit {
   isAuthenticated = false;
   private userSub: Subscription;
   user = null;
+  userRole = null;
+  userId = null;
   constructor(
-    private authService: AuthService
+    private authService: AuthService,
+    private requestService:RequestsService,
+    private router:Router,
+    private route:ActivatedRoute
   ) {}
 
   ngOnInit() {
     this.userSub = this.authService.user.subscribe(user => {
       console.log(user);
-      this.user = user;
+      if(user){
+        this.userId = user.id;
+        this.user = user;
+        this.userRole = user.role;
+      }
+
       this.isAuthenticated = !!user;
+
     });
   }
 
-  onSaveData() {
-    console.log("save data");
-  }
-
-  onFetchData() {
-    console.log("fetch data");
+  onNewPosting() {
+    this.router.navigate(['/new-posting']);
   }
 
   onLogout() {
@@ -38,5 +47,19 @@ export class HeaderComponent implements OnInit {
 
   ngOnDestroy() {
     this.userSub.unsubscribe();
+  }
+  onSeeMyRequests() {
+    this.router.navigate(['/requests']);
+
+  }
+  onSendRequestToBecomeEmployer() {
+    this.requestService.sendRequestToBecomeEmployer().subscribe(()=>{
+      this.router.navigateByUrl('/jobs-portal', { skipLocationChange: true }).then(() => {
+        this.router.navigate(['/jobs-portal']);
+    });
+    })
+  }
+  onSendSeeMyApplications(){
+    this.router.navigate(['/myapplications',this.userId]);
   }
 }

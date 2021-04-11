@@ -1,0 +1,61 @@
+<div class="row">
+  <div class="col-xs-12">
+    <form [formGroup]="applicationForm" (ngSubmit)="onSubmit()" class="edit-form">
+
+      <div class="row form-group">
+        <div class="col span-1-of-3">
+          <label for="numberYearsExperience">Year of experience</label>
+        </div>
+        <div class="col span-2-of-3">
+          <input
+              type="number"
+              id="numberYearsExperience"
+              formControlName="numberYearsExperience"
+              class="form-control">
+        </div>
+      </div>
+
+      <div class="row form-group">
+        <div class="col span-1-of-3">
+          <label for="workingExperience">Previous working experience</label>
+        </div>
+        <div class="col span-2-of-3">
+            <textarea
+              type="text"
+              id="workingExperience"
+              class="form-control"
+              formControlName="workingExperience"
+              rows="6"></textarea>
+        </div>
+      </div>
+
+      <div class="row form-group">
+        <div class="col span-1-of-3">
+            <label for="education">Education</label>
+        </div>
+        <div class="col span-2-of-3">
+            <textarea
+              type="text"
+              id="education"
+              class="form-control"
+              formControlName="education"
+              rows="6"></textarea>
+          </div>
+        </div>
+
+      <div class="row form-group">
+        <div class="col span-2-of-3">
+          <button
+            type="submit"
+            class="btn btn-success"
+            [disabled]="!applicationForm.valid">Apply to posting</button>
+        </div>
+        <div class="col span-1-of-3">
+          <button type="button" (click)="onCancel()">Cancel</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
+

@@ -1,0 +1,37 @@
+<!-- <div class="row">
+  <div class="col-xs-6">
+    <button class="btn btn-success" (click)="onNewPosting()">New</button>
+  </div>
+  <div class="col-xs-6">
+    <button class="btn btn-success" (click)="onEditPosting()">Edit</button>
+  </div>
+</div>
+<hr> -->
+<table>
+  <tr>
+		<th style="width:50%"><h2>List of Postings</h2></th>
+    <th></th>
+  </tr>
+
+  <tr *ngFor="let postingElem of postings; let i = index">
+    <td>
+      <h3 class="list-group-item-heading">{{ postingElem.name }}</h3>
+        <h4>{{postingElem.postedAt | date : 'dd/MM/yyyy'}} &#45; {{postingElem.deadline | date :'dd/MM/yyyy' }}</h4>
+        <p class="list-group-item-text">{{postingElem.description }}</p>
+        <p class="list-group-item-text">{{postingElem.requirements }}</p>
+      </td>
+    <td *ngIf="userRole == 'EMPLOYER'"><button class="btn" (click)="onEditPosting(postingElem.id)"
+      type="button"> Edit Posting</button> </td>
+    <td *ngIf="userRole == 'EMPLOYER'"><button class="btn" (click)="onDeletePosting(postingElem.id)"
+      type="button"> Delete Posting</button> </td>
+
+    <td *ngIf="userRole == 'EMPLOYEE'"><button class="btn" (click)="onApply(postingElem.id)"
+      type="button"> Apply to posting</button> </td>
+    <!-- <td *ngIf="userRole == 'EMPLOYEE'"><button class="btn" (click)="onUnapply(postingElem.id)"
+      type="button"> Unapply from posting</button> </td> -->
+    <td ><button class="btn" (click)="onSeeAplicationsForThisPosting(postingElem.id)"
+        type="button"> See applications for this job</button> </td>
+  </tr>
+</table>
+
+

@@ -1,13 +1,12 @@
+<h4>Current role: {{ userRole}}</h4>
 <div class="row">
   <ul class="main-nav">
-    <li><a style="cursor: pointer;" (click)="onSaveData()">Save Data</a></li>
-    <li> <a style="cursor: pointer;" (click)="onFetchData()">Fetch Data</a></li>
+    <li *ngIf="userRole === 'EMPLOYER'"><a style="cursor: pointer;" (click)="onNewPosting() ">Create</a></li>
+    <li *ngIf="userRole === 'ADMIN' "><a style="cursor: pointer;" (click)="onSeeMyRequests() ">My Requests</a></li>
+    <li *ngIf="userRole === 'EMPLOYEE' "><a style="cursor: pointer;" (click)="onSendRequestToBecomeEmployer() ">Become employer</a></li>
+    <li *ngIf="userRole === 'EMPLOYEE' "><a style="cursor: pointer;" (click)="onSendSeeMyApplications()">My Applications</a></li>
     <li  *ngIf="isAuthenticated"><a style="cursor: pointer;" (click)="onLogout()">Logout</a> </li>
   </ul>
 </div>
-{{this.user.id}}
-{{this.user.role}}
-{{this.user.username}}
 
-
-
+<router-outlet></router-outlet>
