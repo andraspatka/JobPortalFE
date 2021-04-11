@@ -29,8 +29,10 @@ export class JobsPortalListComponent implements OnInit,OnDestroy {
       }
     );
     this.userSubcription = this.authService.user.subscribe(user => {
-      this.userRole = user.role;
-      this.id = user.id;
+      if(user){
+        this.userRole = user.role;
+        this.id = user.id;
+      }
     });
   }
 

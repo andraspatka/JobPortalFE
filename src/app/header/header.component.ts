@@ -26,10 +26,14 @@ export class HeaderComponent implements OnInit {
   ngOnInit() {
     this.userSub = this.authService.user.subscribe(user => {
       console.log(user);
-      this.user = user;
-      this.userRole = user.role;
+      if(user){
+        this.userId = user.id;
+        this.user = user;
+        this.userRole = user.role;
+      }
+
       this.isAuthenticated = !!user;
-      this.userId = user.id;
+
     });
   }
 
