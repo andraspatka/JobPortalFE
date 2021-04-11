@@ -20,16 +20,18 @@
         <p class="list-group-item-text">{{postingElem.description }}</p>
         <p class="list-group-item-text">{{postingElem.requirements }}</p>
       </td>
-    <td><button class="btn" (click)="onEditPosting(postingElem.id)"
+    <td *ngIf="userRole == 'EMPLOYER'"><button class="btn" (click)="onEditPosting(postingElem.id)"
       type="button"> Edit Posting</button> </td>
-      <td><button class="btn" (click)="onDeletePosting(postingElem.id)"
-        type="button"> Delete Posting</button> </td>
+    <td *ngIf="userRole == 'EMPLOYER'"><button class="btn" (click)="onDeletePosting(postingElem.id)"
+      type="button"> Delete Posting</button> </td>
+
+    <td *ngIf="userRole == 'EMPLOYEE'"><button class="btn" (click)="onApply(postingElem.id)"
+      type="button"> Apply to posting</button> </td>
+    <!-- <td *ngIf="userRole == 'EMPLOYEE'"><button class="btn" (click)="onUnapply(postingElem.id)"
+      type="button"> Unapply from posting</button> </td> -->
+    <td ><button class="btn" (click)="onSeeAplicationsForThisPosting(postingElem.id)"
+        type="button"> See applications for this job</button> </td>
   </tr>
 </table>
-<div class="row form-group">
-  <div class="col span-3-of-3">
-
-  </div>
-</div>
 
 

@@ -1,0 +1,16 @@
+<h2>My Applications</h2>
+<table class="center">
+  <tr *ngFor="let appElem of myApplications; let i = index">
+    <td>
+      <h3 class="list-group-item-heading">Applied at: {{ appElem.applicationDate | date :'dd/MM/yyyy'}}</h3>
+        <p class="list-group-item-text">Experience: {{appElem.workingExperience }}</p>
+        <p class="list-group-item-text">Years of experience: {{appElem.numberYearsExperience }}</p>
+        <p class="list-group-item-text">Education: {{appElem.education }}</p>
+      </td>
+      <td><button class="btn" (click)="onDeleteApplication(appElem.id)"
+        type="button">Unapply from job</button> </td>
+  </tr>
+</table>
+<br>
+<button class="btn" (click)="goBack()"
+type="button">Go Back</button>
