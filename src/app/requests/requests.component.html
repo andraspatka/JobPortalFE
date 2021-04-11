@@ -1,9 +1,5 @@
+<h2>My Requests</h2>
 <table>
-  <tr>
-		<th style="width:50%; margin-left:50px"><h2>My Requests</h2></th>
-    <th></th>
-  </tr>
-
   <tr *ngFor="let reqElem of myrequests; let i = index">
     <td>
       <h3 class="list-group-item-heading">{{ reqElem.requestedByFirstName }} &#45; {{reqElem.requestedByLastName}}</h3>
@@ -16,4 +12,7 @@
         type="button"> Decline Posting</button> </td>
   </tr>
 </table>
+<br>
+<button class="btn" (click)="goBack()"
+  type="button">Go Back</button>
 

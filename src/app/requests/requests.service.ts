@@ -3,7 +3,7 @@ import { Injectable } from "@angular/core";
 import { BehaviorSubject, throwError } from "rxjs";
 import { catchError, map, take, tap } from "rxjs/operators";
 import { environment } from "src/environments/environment";
-import { AuthService } from "../auth/auth.service";
+import { AuthResponseData, AuthService } from "../auth/auth.service";
 import { Requests } from "./requests.model";
 export interface RequestResponseData {
   status: string,
@@ -66,6 +66,26 @@ export class RequestsService {
       );
   }
 
+  sendRequestToBecomeEmployer(){
+    let email='';
+    this.authService.username.pipe(
+      take(1),
+      map(username=>{
+        if (!username){
+          throw new Error('User not found');
+        }
+        email=username;
+      })
+    ).subscribe();
+    console.log(email + " vrea sa devina employer");
+    return this.http.post<AuthResponseData>(`${environment.apiUrl}/request/${email}`,{})
+    .pipe(
+      catchError(this.handleError),
+      tap(resData => {
+        console.log(resData);
+      })
+    );
+  }
   private handleError(errorRes: HttpErrorResponse) {
     let errorMessage = 'An unknown error occurred!';
     if (!errorRes.error || !errorRes.error.error) {

@@ -1,7 +1,8 @@
 import { Location } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Params, Router } from '@angular/router';
+import { Subscription } from 'rxjs';
 import { map, take } from 'rxjs/operators';
 import { AuthService } from 'src/app/auth/auth.service';
 import { Category } from '../category.model';
@@ -13,19 +14,21 @@ import { PostingWithoutId } from '../postingWithoutId.model';
   templateUrl: './jobs-portal-new-posting.component.html',
   styleUrls: ['./jobs-portal-new-posting.component.css']
 })
-export class JobsPortalNewPostingComponent implements OnInit {
+export class JobsPortalNewPostingComponent implements OnInit,OnDestroy {
 
-  constructor(private location:Location,
+  constructor(
     private route:ActivatedRoute,
     private jobsPortalService:JobsPortalService,
     private authService:AuthService,
     private router:Router) { }
 
+    jobsSubscripiton:Subscription;
+    addSubscription:Subscription;
     postingForm: FormGroup;
     categories:Category[];
 
   ngOnInit() {
-    this.jobsPortalService.fetchCategories().subscribe((categoryList)=>{
+    this.jobsSubscripiton = this.jobsPortalService.fetchCategories().subscribe((categoryList)=>{
       this.categories = categoryList;
     })
     this.initForm();
@@ -53,7 +56,7 @@ export class JobsPortalNewPostingComponent implements OnInit {
     this.postingForm.value.category,
     this.postingForm.value.requirements)
     console.log(post);
-    this.jobsPortalService.addPosting(post).subscribe((res)=>{
+   this.addSubscription =  this.jobsPortalService.addPosting(post).subscribe((res)=>{
       this.onCancel();
     });
   }
@@ -71,5 +74,11 @@ export class JobsPortalNewPostingComponent implements OnInit {
       requirements: new FormControl(null,Validators.required),
       category:new FormControl(null,Validators.required)
     });
+  }
+  ngOnDestroy(){
+    if(this.jobsSubscripiton)
+      this.jobsSubscripiton.unsubscribe();
+    if(this.addSubscription)
+      this.addSubscription.unsubscribe();
   }
 }
