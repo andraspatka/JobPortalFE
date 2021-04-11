@@ -3,17 +3,22 @@ import {
   ActivatedRouteSnapshot,
   RouterStateSnapshot,
   Router,
-  UrlTree
+  UrlTree,
+  CanLoad,
+  Route,
+  UrlSegment
 } from '@angular/router';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { map, tap, take } from 'rxjs/operators';
+import { map, tap, take, switchMap } from 'rxjs/operators';
 
 import { AuthService } from './auth.service';
 
 @Injectable({ providedIn: 'root' })
 export class AuthGuard implements CanActivate {
+
   constructor(private authService: AuthService, private router: Router) {}
+
 
   canActivate(
     route: ActivatedRouteSnapshot,
@@ -23,12 +28,15 @@ export class AuthGuard implements CanActivate {
     | UrlTree
     | Promise<boolean | UrlTree>
     | Observable<boolean | UrlTree> {
-    return this.authService.role.pipe(
+    return this.authService.user.pipe(
       take(1),
-      map(role => {
-        if(role === "ADMIN")
+      map(user => {
+        const isAuth = !!user;
+        if (isAuth) {
           return true;
-        return false;
+        }
+        else
+          return this.router.createUrlTree(['/auth']);
       })
       // tap(isAuth => {
       //   if (!isAuth) {

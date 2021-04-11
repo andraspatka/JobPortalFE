@@ -17,7 +17,7 @@ export interface AuthResponseData {
 export class AuthService {
   user = new BehaviorSubject<User>(null);
   helper = new JwtHelperService();
-
+  private tokenExpirationTimer: any;
   constructor(private http: HttpClient, private router: Router) {}
 
   get role(){
@@ -52,6 +52,17 @@ export class AuthService {
     );
   }
 
+  get userIsAuthenticated() {
+    return this.user.asObservable().pipe(
+      map(user => {
+        if (user) {
+          return user;
+        } else {
+          return false;
+        }
+      })
+    );
+  }
   signup(email: string, password: string,firstname:string,lastname:string,company:string) {
     return this.http
       .post<AuthResponseData>(
@@ -106,10 +117,11 @@ export class AuthService {
     if (authentiocationDate.status === "OK") {
       const jwtToken = authentiocationDate.body;
       const decodedToken = this.helper.decodeToken(jwtToken);
-      const user = new User(decodedToken.id, decodedToken.username, decodedToken.role);
       const expirationDate = new Date(new Date().getTime() + decodedToken.exp * 1000);
+      const user = new User(decodedToken.id, decodedToken.username, decodedToken.role);
       console.log(expirationDate);
       this.user.next(user);
+      localStorage.setItem('userData', JSON.stringify(user));
     } else {
       console.log(authentiocationDate.body);
       return throwError(authentiocationDate.body);
@@ -125,5 +137,27 @@ export class AuthService {
   logout() {
     this.user.next(null);
     this.router.navigate(['/auth']);
+    localStorage.removeItem('userData');
+  }
+
+  autoLogin() {
+    const userData: {
+      id: string;
+      username: string;
+      role: string;
+    } = JSON.parse(localStorage.getItem('userData'));
+    if (!userData) {
+      return;
+    }
+
+    const loadedUser = new User(
+      userData.id,
+      userData.username,
+      userData.role
+    );
+
+    if (loadedUser) {
+      this.user.next(loadedUser);
+    }
   }
 }

@@ -13,6 +13,7 @@ export class HeaderComponent implements OnInit {
   isAuthenticated = false;
   private userSub: Subscription;
   user = null;
+  userRole = null
   constructor(
     private authService: AuthService,
     private router:Router,
@@ -23,6 +24,7 @@ export class HeaderComponent implements OnInit {
     this.userSub = this.authService.user.subscribe(user => {
       console.log(user);
       this.user = user;
+      this.userRole = user.role;
       this.isAuthenticated = !!user;
     });
   }

@@ -9,21 +9,21 @@ import { JobsPortalComponent } from './jobs-portal/jobs-portal.component';
 import { RequestsComponent } from './requests/requests.component';
 
 const appRoutes: Routes = [
-  { path: '', redirectTo: '/auth', pathMatch: 'full' },
+  { path: '', redirectTo: '/jobs-portal', pathMatch: 'full' },
   {
     path:'jobs-portal',
-    //canLoad:[AuthGuard],
+    canActivate:[AuthGuard],
     component: JobsPortalComponent
   },
   {
     path:'new-posting',
-    //canLoad:[AuthGuard],
+    canActivate:[AuthGuard],
     component:JobsPortalNewPostingComponent
 
   },
   {
     path:'edit-posting/:id',
-    //canLoad:[AuthGuard],
+    canActivate:[AuthGuard],
     component:JobsPortalEditPostingComponent
   },
   {
@@ -33,7 +33,7 @@ const appRoutes: Routes = [
   {
     path:'requests',
     component:RequestsComponent,
-    //canActivate:[AuthGuard],
+    canActivate:[AuthGuard],
   }
 ];
 
