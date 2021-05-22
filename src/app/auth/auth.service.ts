@@ -20,6 +20,9 @@ export class AuthService {
   private tokenExpirationTimer: any;
   constructor(private http: HttpClient, private router: Router) {}
 
+  headers = new HttpHeaders({
+    'Content-Type': 'application/json'});
+  options = { headers: this.headers };
   get role(){
     return this.user.asObservable().pipe(
       map(user=>{
@@ -66,7 +69,7 @@ export class AuthService {
   signup(email: string, password: string,firstname:string,lastname:string,company:string) {
     return this.http
       .post<AuthResponseData>(
-        `${environment.apiUrl}/users`,
+        `${environment.apiUrl}/auth/register`,
         {
           email: email,
           password: password,
@@ -86,11 +89,11 @@ export class AuthService {
   login(email: string, password: string) {
     return this.http
       .post<AuthResponseData>(
-        `${environment.apiUrl}/login`,
+        `${environment.apiUrl}/auth/login`,
         {
           email: email,
           password: password
-        }
+        },this.options
       )
       .pipe(
         catchError(this.handleError),
@@ -102,7 +105,7 @@ export class AuthService {
   }
 
   loadCompanies(): Observable<Array<Company>> {
-    return this.http.get<Array<Company>>(`${environment.apiUrl}/companies`);
+    return this.http.get<Array<Company>>(`${environment.apiUrl}/auth/companies`);
   }
 
   private handleError(errorRes: HttpErrorResponse) {
