@@ -37,7 +37,7 @@ export class JobsPortalService {
     return this._postingsapplications.asObservable();
   }
   fetchCategories(){
-    return this.http.get<any>(`${environment.apiUrl}/categories`)
+    return this.http.get<any>(`${environment.apiUrl}/posting/categories`)
     .pipe(
       map(resData=>{
         console.log(resData);
@@ -56,7 +56,7 @@ export class JobsPortalService {
     )
   }
   fetchPostings(){
-    return this.http.get<any>(`${environment.apiUrl}/postings`)
+    return this.http.get<any>(`${environment.apiUrl}/posting/postings`)
     .pipe(
       map(resData=>{
         console.log(resData);
@@ -75,7 +75,7 @@ export class JobsPortalService {
   }
 
   addPosting(posting:PostingWithoutId){
-    return this.http.post<AuthResponseData>(`${environment.apiUrl}/postings`,
+    return this.http.post<AuthResponseData>(`${environment.apiUrl}/posting/postings`,
     {
       "postedById":posting.postedById,
       "postedAt":posting.postedAt,
@@ -96,7 +96,7 @@ export class JobsPortalService {
   }
 
   updatePosting(posting:PostingUpdate){
-    return this.http.patch<AuthResponseData>(`${environment.apiUrl}/postings`,
+    return this.http.patch<AuthResponseData>(`${environment.apiUrl}/posting/postings`,
     {
       "id":posting.id,
       "deadline":posting.deadline,
@@ -114,7 +114,7 @@ export class JobsPortalService {
   }
 
   deletePosting(id:number){
-    return this.http.delete<AuthResponseData>(`${environment.apiUrl}/postings/${id}`)
+    return this.http.delete<AuthResponseData>(`${environment.apiUrl}/posting/postings/${id}`)
     .pipe(
       catchError(this.handleError),
       tap(resData => {
@@ -146,7 +146,7 @@ export class JobsPortalService {
   }
 
   onApplyToPosting(application:Application){
-    return this.http.post<AuthResponseData>(`${environment.apiUrl}/applications`,
+    return this.http.post<AuthResponseData>(`${environment.apiUrl}/posting/applications`,
     {
       "numberYearsExperience":application.numberYearsExperience,
       "workingExperience":application.workingExperience,
@@ -177,7 +177,7 @@ export class JobsPortalService {
       })
     ).subscribe();
     console.log('fetching applications for user with id: ' + id);
-    return this.http.get<Application[]>(`${environment.apiUrl}/applications/user/${id}`)
+    return this.http.get<Application[]>(`${environment.apiUrl}/posting/applications/user/${id}`)
     .pipe(
       map(resData=>{
         console.log(resData);
@@ -197,7 +197,7 @@ export class JobsPortalService {
     )
   }
   fetchPostingsApplications(postingId:number){
-    return this.http.get<Application[]>(`${environment.apiUrl}/applications/posting/${postingId}`)
+    return this.http.get<Application[]>(`${environment.apiUrl}/posting/applications/posting/${postingId}`)
     .pipe(
       map(resData=>{
         console.log(resData);
@@ -219,7 +219,7 @@ export class JobsPortalService {
 
   onDeleteApplication(id:number){
     console.log("want to delete application with id:"+id);
-    return this.http.delete<AuthResponseData>(`${environment.apiUrl}/applications/${id}`)
+    return this.http.delete<AuthResponseData>(`${environment.apiUrl}/posting/applications/${id}`)
     .pipe(
       catchError(this.handleError),
       tap(resData => {
