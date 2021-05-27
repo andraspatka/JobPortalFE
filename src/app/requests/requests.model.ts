@@ -1,15 +1,16 @@
 export class Requests {
-  public  id: number;
-  public requestedByFirstName: string;
-  public requestedByLastName: string;
-  public requestedByEmail:string;
+  public  id: string;
+  public requested_by: string;
+  public company: string;
   public status:string;
+  public created_at:string;
 
-  constructor(id :number,requestedByFirstName: string,requestedByLastName: string,
-    requestedByEmail:string,status:string) {
+  constructor(id :string,requestedBy: string,company: string,
+    createdAt:string,status:string) {
       this.id = id;
-      this.requestedByEmail=requestedByEmail;
-      this.requestedByFirstName=requestedByFirstName;
-      this.requestedByLastName=requestedByLastName;
+      this.requested_by=requestedBy;
+      this.company=company;
+      this.created_at=createdAt;
+      this.status=status;
   }
 }

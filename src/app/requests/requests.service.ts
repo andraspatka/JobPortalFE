@@ -1,4 +1,4 @@
-import { HttpClient, HttpErrorResponse } from "@angular/common/http";
+import { HttpClient, HttpErrorResponse, HttpHeaders } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { BehaviorSubject, throwError } from "rxjs";
 import { catchError, map, take, tap } from "rxjs/operators";
@@ -23,26 +23,33 @@ export class RequestsService {
   }
 
   fetchMyRequests(){
-    let email='';
-    this.authService.username.pipe(
+    let bearer='';
+    this.authService.token.pipe(
       take(1),
-      map(username=>{
-        if (!username){
-          throw new Error('User not found');
+      map(token=>{
+        if (!token){
+          throw new Error('Token not found');
         }
-        email=username;
+        bearer=token;
       })
     ).subscribe();
-    console.log(email);
-    return this.http.get<Requests[]>(`${environment.apiUrl}/request/${email}`)
+    console.log(bearer);
+    return this.http.get<any>(`${environment.apiUrl}/requests`,{
+      headers: new HttpHeaders()
+        .set('Authorization',  `Bearer ${bearer}`)
+    })
     .pipe(
       map(resData=>{
         console.log(resData);
         const myrequests = [];
-        resData.map(elem=>{
-          myrequests.push(new Requests(elem.id,elem.requestedByFirstName,elem.requestedByLastName,
-            elem.requestedByEmail,elem.status))
-        })
+        if(resData){
+          resData.data.map(elem=>{
+            console.log(elem.id)
+            console.log(elem.attributes)
+            myrequests.push(new Requests(elem.id, elem.attributes.requested_by, elem.attributes.company,
+              elem.attributes.created_at, elem.attributes.status))
+          })
+        }
         console.log(myrequests);
         return myrequests;
     }),
@@ -52,33 +59,49 @@ export class RequestsService {
     )
   }
 
-  handleRequest(id:number,status:string){
-      return this.http.patch<RequestResponseData>(`${environment.apiUrl}/request`,
-      {
-        "id":id,
-        "status":status
+  handleRequest(id:string,status:string){
+    let bearer='';
+    this.authService.token.pipe(
+      take(1),
+      map(token=>{
+        if (!token){
+          throw new Error('Token not found');
+        }
+        bearer=token;
       })
-      .pipe(
-        catchError(this.handleError),
-        tap(resData => {
-          console.log(resData);
-        })
-      );
+    ).subscribe();
+    return this.http.patch<any>(`${environment.apiUrl}/requests`,
+    {
+      "id":id,
+      "status":status
+    },{
+      headers: new HttpHeaders()
+        .set('Authorization',  `Bearer ${bearer}`)
+    })
+    .pipe(
+      catchError(this.handleError),
+      tap(resData => {
+        console.log(resData);
+      })
+    );
   }
 
   sendRequestToBecomeEmployer(){
-    let email='';
-    this.authService.username.pipe(
+    let bearer=''
+    this.authService.token.pipe(
       take(1),
-      map(username=>{
-        if (!username){
-          throw new Error('User not found');
+      map(token=>{
+        if (!token){
+          throw new Error('Token not found');
         }
-        email=username;
+        bearer=token
       })
     ).subscribe();
-    console.log(email + " vrea sa devina employer");
-    return this.http.post<AuthResponseData>(`${environment.apiUrl}/requests/${email}`,{})
+    console.log(bearer);
+    return this.http.post<any>(`${environment.apiUrl}/requests`,{},{
+      headers: new HttpHeaders()
+        .set('Authorization',  `Bearer ${bearer}`)
+    })
     .pipe(
       catchError(this.handleError),
       tap(resData => {

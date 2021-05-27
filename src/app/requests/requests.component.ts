@@ -1,6 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
+import { AuthService } from '../auth/auth.service';
 import { Requests } from './requests.model';
 import { RequestsService } from './requests.service';
 
@@ -11,7 +12,7 @@ import { RequestsService } from './requests.service';
 })
 export class RequestsComponent implements OnInit, OnDestroy {
 
-  constructor(private reuqetsService:RequestsService,
+  constructor(private reuqetsService:RequestsService, private authService:AuthService,
     private router:Router) { }
   myrequests:Requests[];
   myRequestSubscription:Subscription;
@@ -29,12 +30,16 @@ export class RequestsComponent implements OnInit, OnDestroy {
     if(this.myRequestSubscription)
       this.myRequestSubscription.unsubscribe();
   }
-  onAccept(id:number){
+  onAccept(){
+    let id=''
+    this.authService.userId.subscribe(userid=>id=userid)
     this.handleRequestSubscription= this.reuqetsService.handleRequest(id,"APPROVED").subscribe(()=>{
       this.router.navigate(['/jobs-portal'])
     });
   }
-  onDecline(id:number){
+  onDecline(){
+    let id=''
+    this.authService.userId.subscribe(userid=>id=userid)
     this.handleRequestSubscription= this.reuqetsService.handleRequest(id,"DECLINED").subscribe(()=>{
       this.router.navigate(['/jobs-portal'])
     });
