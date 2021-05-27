@@ -30,7 +30,7 @@ export class JobsPortalSeeMyApplicationsComponent implements OnInit {
     if(this.deleteSubscription)
       this.deleteSubscription.unsubscribe();
   }
-  onDeleteApplication(id:number){
+  onDeleteApplication(id:string){
     this.deleteSubscription= this.jobsPortalServie.onDeleteApplication(id).subscribe(()=>{
       this.router.navigate(['/jobs-portal']);
     });

@@ -21,7 +21,7 @@ export class JobsPortalSeeApplicationsForPostingComponent implements OnInit {
   postingId=null;
   ngOnInit() {
     this.route.params.subscribe((params: Params) => {
-      this.postingId = +params['id'];
+      this.postingId = params['id'];
     });
     this.applicationsSubscription = this.jobsPortalServie.fetchPostingsApplications(this.postingId).subscribe();
     this.jobsPortalServie.postingsapplications.subscribe(listOfApplications=>{

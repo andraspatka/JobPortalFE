@@ -78,7 +78,7 @@ export class RequestsService {
       })
     ).subscribe();
     console.log(email + " vrea sa devina employer");
-    return this.http.post<AuthResponseData>(`${environment.apiUrl}/request/${email}`,{})
+    return this.http.post<AuthResponseData>(`${environment.apiUrl}/requests/${email}`,{})
     .pipe(
       catchError(this.handleError),
       tap(resData => {

@@ -15,12 +15,12 @@ export class JobsPortalEditPostingComponent implements OnInit {
     private jobsPortalService:JobsPortalService,
     private router:Router) { }
 
-    id: number;
+    id: string;
     postingForm: FormGroup;
 
   ngOnInit() {
     this.route.params.subscribe((params: Params) => {
-      this.id = +params['id'];
+      this.id = params['id'];
     });
     this.initForm();
   }
@@ -45,6 +45,7 @@ export class JobsPortalEditPostingComponent implements OnInit {
 
   private initForm() {
     const posting = this.jobsPortalService.getPosting(this.id);
+    console.log(posting)
     this.postingForm = new FormGroup({
       name:new FormControl(posting.name,Validators.required),
       deadline: new FormControl(posting.deadline,Validators.required),

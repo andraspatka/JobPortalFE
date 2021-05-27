@@ -35,14 +35,14 @@ export class JobsPortalNewPostingComponent implements OnInit,OnDestroy {
   }
 
   onSubmit() {
-    let postedBy=0;
+    let postedBy="";
     this.authService.userId.pipe(
       take(1),
       map(userId=>{
         if (!userId){
           throw new Error('User not found');
         }
-        postedBy=+userId;
+        postedBy=userId;
       })
     ).subscribe();
     console.log(postedBy);
