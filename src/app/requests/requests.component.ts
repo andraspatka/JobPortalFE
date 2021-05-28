@@ -30,16 +30,12 @@ export class RequestsComponent implements OnInit, OnDestroy {
     if(this.myRequestSubscription)
       this.myRequestSubscription.unsubscribe();
   }
-  onAccept(){
-    let id=''
-    this.authService.userId.subscribe(userid=>id=userid)
+  onAccept(id: string){
     this.handleRequestSubscription= this.reuqetsService.handleRequest(id,"APPROVED").subscribe(()=>{
       this.router.navigate(['/jobs-portal'])
     });
   }
-  onDecline(){
-    let id=''
-    this.authService.userId.subscribe(userid=>id=userid)
+  onDecline(id: string){
     this.handleRequestSubscription= this.reuqetsService.handleRequest(id,"DECLINED").subscribe(()=>{
       this.router.navigate(['/jobs-portal'])
     });

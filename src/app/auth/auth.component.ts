@@ -49,7 +49,7 @@ export class AuthComponent implements OnInit {
     const firstname = form.value.firstname;
     const lastname = form.value.lastname;
     const company = form.value.selectedCompany;
-    let authObs: Observable<AuthResponseData>;
+    let authObs: Observable<any>;
     this.isLoading = true;
 
     if (this.isLoginMode) {
@@ -73,7 +73,7 @@ export class AuthComponent implements OnInit {
       authObs = this.authService.signup(email, password, firstname, lastname, company);
       authObs.subscribe(
         resData => {
-          if (!resData.token) {
+          if (!resData) {
             this.error = "Error with received token. Might be null";
           } else
             this.message = "Token successfully received";

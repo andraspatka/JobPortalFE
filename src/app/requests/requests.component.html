@@ -6,9 +6,9 @@
         <p class="list-group-item-text">{{reqElem.created_at | date : 'dd/MM/yyyy'}}</p>
         <p class="list-group-item-text">{{reqElem.status }}</p>
       </td>
-    <td><button class="btn" (click)="onAccept()"
+    <td><button class="btn" (click)="onAccept(reqElem.requested_by)"
       type="button"> Accept Request</button> </td>
-      <td><button class="btn" (click)="onDecline()"
+      <td><button class="btn" (click)="onDecline(reqElem.requested_by)"
         type="button"> Decline Request</button> </td>
   </tr>
 </table>
