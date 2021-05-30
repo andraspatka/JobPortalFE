@@ -8,6 +8,8 @@ import { JobsPortalListComponent } from './jobs-portal/jobs-portal-list/jobs-por
 import { JobsPortalNewPostingComponent } from './jobs-portal/jobs-portal-new-posting/jobs-portal-new-posting.component';
 import { JobsPortalSeeApplicationsForPostingComponent } from './jobs-portal/jobs-portal-see-applications-for-posting/jobs-portal-see-applications-for-posting.component';
 import { JobsPortalSeeMyApplicationsComponent } from './jobs-portal/jobs-portal-see-my-applications/jobs-portal-see-my-applications.component';
+import { ChartsComponent } from './jobs-portal/jobs-portal-statistics/charts/charts.component';
+import { JobsPortalStatisticsComponent } from './jobs-portal/jobs-portal-statistics/jobs-portal-statistics.component';
 import { JobsPortalComponent } from './jobs-portal/jobs-portal.component';
 import { RequestsComponent } from './requests/requests.component';
 
@@ -52,6 +54,16 @@ const appRoutes: Routes = [
     path:'requests',
     component:RequestsComponent,
     canActivate:[AuthGuard],
+  },
+  {
+    path:'statistics',
+    component:JobsPortalStatisticsComponent,
+    canActivate:[AuthGuard]
+  },
+  {
+    path:'statistics/charts',
+    component:ChartsComponent,
+    canActivate:[AuthGuard]
   }
 ];
 

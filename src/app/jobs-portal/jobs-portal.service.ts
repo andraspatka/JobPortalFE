@@ -9,6 +9,7 @@ import { Category } from './category.model';
 import { PostingWithoutId } from './postingWithoutId.model';
 import { PostingUpdate } from './postingUpate.model';
 import { Application } from './application.model';
+import { Statistics } from './statistic.model';
 export interface PostingResponseData{
   postingList:Posting[]
 }
@@ -25,8 +26,15 @@ export class JobsPortalService {
   _categories = new BehaviorSubject<Category[]>([]);
   _myapplications = new BehaviorSubject<Application[]>([]);
   _postingsapplications = new BehaviorSubject<Application[]>([]);
+  _statistics = new BehaviorSubject<Statistics[]>([]);
+
+
   header:{}
   authToken:string = "";
+
+  get statistics(){
+    return this._statistics.asObservable();
+  }
 
   get postings(){
     return this._postings.asObservable();
@@ -42,6 +50,40 @@ export class JobsPortalService {
   get postingsapplications(){
     return this._postingsapplications.asObservable();
   }
+
+  fetchStatistics(){
+    let bearer=''
+    this.authService.token.pipe(
+      take(1),
+      map(token=>{
+        if (!token){
+          throw new Error('Token not found');
+        }
+        bearer=token
+      })
+    ).subscribe();
+    console.log(bearer);
+    return this.http.get<any>(`${environment.apiUrl}/statistics`, {
+      headers: new HttpHeaders()
+        .set('Authorization',  `Bearer ${bearer}`)
+    })
+    .pipe(
+      map(resData=>{
+        const statistics = [];
+        if(resData){
+          resData.data.map(elem=>{
+            statistics.push(new Statistics(elem.attributes.type,elem.attributes.details))
+          })
+        }
+        return statistics;
+    }),
+    tap(list=>{
+      this._statistics.next(list);
+    })
+    )
+  }
+
+
 
   fetchCategories(){
     let bearer=''

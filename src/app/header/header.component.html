@@ -5,6 +5,7 @@
     <li *ngIf="userRole === 'ADMIN' "><a style="cursor: pointer;" (click)="onSeeMyRequests() ">My Requests</a></li>
     <li *ngIf="userRole === 'EMPLOYEE' "><a style="cursor: pointer;" (click)="onSendRequestToBecomeEmployer() ">Become employer</a></li>
     <li *ngIf="userRole === 'EMPLOYEE' "><a style="cursor: pointer;" (click)="onSendSeeMyApplications()">My Applications</a></li>
+    <li ><a style="cursor: pointer;" (click)="onSendSeeStatistics()">Statistics</a></li>
     <li  *ngIf="isAuthenticated"><a style="cursor: pointer;" (click)="onLogout()">Logout</a> </li>
   </ul>
 </div>

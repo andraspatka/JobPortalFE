@@ -17,6 +17,8 @@ import { RequestsComponent } from './requests/requests.component';
 import { JobsPortalApplyToPostingComponent } from './jobs-portal/jobs-portal-apply-to-posting/jobs-portal-apply-to-posting.component';
 import { JobsPortalSeeMyApplicationsComponent } from './jobs-portal/jobs-portal-see-my-applications/jobs-portal-see-my-applications.component';
 import { JobsPortalSeeApplicationsForPostingComponent } from './jobs-portal/jobs-portal-see-applications-for-posting/jobs-portal-see-applications-for-posting.component';
+import { JobsPortalStatisticsComponent } from './jobs-portal/jobs-portal-statistics/jobs-portal-statistics.component';
+import { ChartsComponent } from './jobs-portal/jobs-portal-statistics/charts/charts.component';
 
 @NgModule({
   declarations: [
@@ -32,7 +34,9 @@ import { JobsPortalSeeApplicationsForPostingComponent } from './jobs-portal/jobs
     RequestsComponent,
     JobsPortalApplyToPostingComponent,
     JobsPortalSeeMyApplicationsComponent,
-    JobsPortalSeeApplicationsForPostingComponent
+    JobsPortalSeeApplicationsForPostingComponent,
+    JobsPortalStatisticsComponent,
+    ChartsComponent
   ],
   imports: [
     BrowserModule,
