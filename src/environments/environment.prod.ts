@@ -1,5 +1,5 @@
 export const environment = {
   production: true,
   environmentName: 'production',
-  apiUrl: 'https://jobportal-be.herokuapp.com'
+  apiUrl: 'http://20.79.83.47:4000'
 };
