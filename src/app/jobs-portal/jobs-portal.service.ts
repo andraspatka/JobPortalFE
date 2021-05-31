@@ -1,5 +1,5 @@
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
+import { Injectable, OnInit } from '@angular/core';
 import { BehaviorSubject, throwError } from 'rxjs';
 import { Posting } from './posting.model';
 import {environment} from '../../environments/environment';
@@ -9,19 +9,33 @@ import { Category } from './category.model';
 import { PostingWithoutId } from './postingWithoutId.model';
 import { PostingUpdate } from './postingUpate.model';
 import { Application } from './application.model';
+import { Statistics } from './statistic.model';
 export interface PostingResponseData{
   postingList:Posting[]
+}
+export interface CategoryResponseData{
+  data: []
 }
 @Injectable({
   providedIn: 'root'
 })
 export class JobsPortalService {
-  constructor(private http:HttpClient,private authService:AuthService) { }
+  constructor(private http:HttpClient,private authService:AuthService) {}
 
   _postings = new BehaviorSubject<Posting[]>([]);
   _categories = new BehaviorSubject<Category[]>([]);
   _myapplications = new BehaviorSubject<Application[]>([]);
   _postingsapplications = new BehaviorSubject<Application[]>([]);
+  _statistics = new BehaviorSubject<Statistics[]>([]);
+
+
+  header:{}
+  authToken:string = "";
+
+  get statistics(){
+    return this._statistics.asObservable();
+  }
+
   get postings(){
     return this._postings.asObservable();
   }
@@ -36,17 +50,69 @@ export class JobsPortalService {
   get postingsapplications(){
     return this._postingsapplications.asObservable();
   }
+
+  fetchStatistics(){
+    let bearer=''
+    this.authService.token.pipe(
+      take(1),
+      map(token=>{
+        if (!token){
+          throw new Error('Token not found');
+        }
+        bearer=token
+      })
+    ).subscribe();
+    console.log(bearer);
+    return this.http.get<any>(`${environment.apiUrl}/statistics`, {
+      headers: new HttpHeaders()
+        .set('Authorization',  `Bearer ${bearer}`)
+    })
+    .pipe(
+      map(resData=>{
+        const statistics = [];
+        if(resData){
+          resData.data.map(elem=>{
+            statistics.push(new Statistics(elem.attributes.type,elem.attributes.details))
+          })
+        }
+        return statistics;
+    }),
+    tap(list=>{
+      this._statistics.next(list);
+    })
+    )
+  }
+
+
+
   fetchCategories(){
-    return this.http.get<any>(`${environment.apiUrl}/categories`)
+    let bearer=''
+    this.authService.token.pipe(
+      take(1),
+      map(token=>{
+        if (!token){
+          throw new Error('Token not found');
+        }
+        bearer=token
+      })
+    ).subscribe();
+    console.log(bearer)
+    return this.http.get<any>(`${environment.apiUrl}/category/categories`, {
+      headers: new HttpHeaders()
+        .set('Authorization',  `Bearer ${bearer}`)
+    })
     .pipe(
       map(resData=>{
         console.log(resData);
         const categories = [];
-        var index=1;
-        resData.map(elem=>{
-          categories.push(new Category(index,elem.name))
-          index++;
-        })
+        if(resData){
+          var index=1;
+          resData.data.map(elem=>{
+            categories.push(new Category(index,elem.attributes.name))
+            index++;
+          })
+        }
+
         console.log(categories);
         return categories;
     }),
@@ -55,17 +121,33 @@ export class JobsPortalService {
     })
     )
   }
+
   fetchPostings(){
-    return this.http.get<any>(`${environment.apiUrl}/postings`)
+    let bearer=''
+    this.authService.token.pipe(
+      take(1),
+      map(token=>{
+        if (!token){
+          throw new Error('Token not found');
+        }
+        bearer=token
+      })
+    ).subscribe();
+    return this.http.get<any>(`${environment.apiUrl}/posting/postings`, {
+      headers: new HttpHeaders()
+        .set('Authorization',  `Bearer ${bearer}`)
+    })
     .pipe(
       map(resData=>{
-        console.log(resData);
         const postings = [];
-        resData.map(elem=>{
-          postings.push(new Posting(elem.id,elem.postedById,elem.postedAt,
-            elem.deadline,elem.numberOfViews,elem.name,elem.description,elem.categoryId,elem.requirements))
-        })
-        console.log(postings);
+        if(resData){
+            resData.data.map(elem=>{
+            postings.push(new Posting(elem.attributes.id,elem.attributes.postedById,elem.attributes.postedAt,
+              elem.attributes.deadline,elem.attributes.numberOfViews,
+              elem.attributes.name,elem.attributes.description,elem.attributes.categoryId,
+              elem.attributes.requirements))
+          })
+        }
         return postings;
     }),
     tap(postings=>{
@@ -75,7 +157,18 @@ export class JobsPortalService {
   }
 
   addPosting(posting:PostingWithoutId){
-    return this.http.post<AuthResponseData>(`${environment.apiUrl}/postings`,
+    let bearer=''
+    this.authService.token.pipe(
+      take(1),
+      map(token=>{
+        if (!token){
+          throw new Error('Token not found');
+        }
+        bearer=token
+      })
+    ).subscribe();
+
+    return this.http.post<AuthResponseData>(`${environment.apiUrl}/posting/postings`,
     {
       "postedById":posting.postedById,
       "postedAt":posting.postedAt,
@@ -85,45 +178,74 @@ export class JobsPortalService {
       "description":posting.description,
       "categoryId":+posting.categoryId,
       "requirements":posting.requirements
+    }, {
+      headers: new HttpHeaders()
+        .set('Authorization',  `Bearer ${bearer}`)
     })
     .pipe(
       catchError(this.handleError),
       tap(resData => {
         console.log(resData);
-        this.handleOperatio(resData);
+        //this.handleOperatio(resData);
       })
     );
   }
 
   updatePosting(posting:PostingUpdate){
-    return this.http.patch<AuthResponseData>(`${environment.apiUrl}/postings`,
+    let bearer=''
+    this.authService.token.pipe(
+      take(1),
+      map(token=>{
+        if (!token){
+          throw new Error('Token not found');
+        }
+        bearer=token
+      })
+    ).subscribe();
+    return this.http.patch<AuthResponseData>(`${environment.apiUrl}/posting/postings`,
     {
       "id":posting.id,
       "deadline":posting.deadline,
       "name":posting.name,
       "description":posting.description,
       "requirements":posting.requirements
+    },{
+      headers: new HttpHeaders()
+        .set('Authorization',  `Bearer ${bearer}`)
     })
     .pipe(
       catchError(this.handleError),
       tap(resData => {
         console.log(resData);
-        this.handleOperatio(resData);
+        //this.handleOperatio(resData);
       })
     );
   }
 
-  deletePosting(id:number){
-    return this.http.delete<AuthResponseData>(`${environment.apiUrl}/postings/${id}`)
+  deletePosting(id:string){
+    let bearer=''
+    this.authService.token.pipe(
+      take(1),
+      map(token=>{
+        if (!token){
+          throw new Error('Token not found');
+        }
+        bearer=token
+      })
+    ).subscribe();
+    return this.http.delete<AuthResponseData>(`${environment.apiUrl}/posting/postings/${id}`,{
+      headers: new HttpHeaders()
+        .set('Authorization',  `Bearer ${bearer}`)
+    })
     .pipe(
       catchError(this.handleError),
       tap(resData => {
         console.log(resData);
-        this.handleOperatio(resData);
+        //this.handleOperatio(resData);
       })
     );
   }
-  getPosting(id:number){
+  getPosting(id:string){
     let item:Posting;
     console.log(id);
     this.postings.subscribe((list:Posting[])=>{
@@ -140,26 +262,38 @@ export class JobsPortalService {
     return throwError(errorMessage);
   }
   private handleOperatio(authentiocationData:AuthResponseData){
-    if(authentiocationData.status !== "OK"){
-      return throwError(authentiocationData.body);
+    if(authentiocationData.token === ""){
+      return throwError("Token is null");
     }
   }
 
   onApplyToPosting(application:Application){
-    return this.http.post<AuthResponseData>(`${environment.apiUrl}/applications`,
+    let bearer=''
+    this.authService.token.pipe(
+      take(1),
+      map(token=>{
+        if (!token){
+          throw new Error('Token not found');
+        }
+        bearer=token
+      })
+    ).subscribe();
+    return this.http.post<any>(`${environment.apiUrl}/application/applications`,
     {
-      "numberYearsExperience":application.numberYearsExperience,
-      "workingExperience":application.workingExperience,
+      "numberYearsExperience":application.experience,
+      "workingExperience":application.work_experience,
       "education":application.education,
-      "applicationDate":application.applicationDate,
-      "applicantId":application.applicantId,
-      "postingId":application.postingId,
+      "applicationDate":application.date_applied,
+      "applicantId":application.user_id,
+      "postingId":application.posting_id,
+    },{
+      headers: new HttpHeaders()
+        .set('Authorization',  `Bearer ${bearer}`)
     })
     .pipe(
       catchError(this.handleError),
       tap(resData => {
         console.log(resData);
-        this.handleOperatio(resData);
       })
     );
   }
@@ -176,18 +310,31 @@ export class JobsPortalService {
         id=userId;
       })
     ).subscribe();
+    let bearer=''
+    this.authService.token.pipe(
+      take(1),
+      map(token=>{
+        if (!token){
+          throw new Error('Token not found');
+        }
+        bearer=token
+      })
+    ).subscribe();
     console.log('fetching applications for user with id: ' + id);
-    return this.http.get<Application[]>(`${environment.apiUrl}/applications/user/${id}`)
+    return this.http.get<any>(`${environment.apiUrl}/application/applications/user/${id}`,{
+      headers: new HttpHeaders()
+        .set('Authorization',  `Bearer ${bearer}`)
+    })
     .pipe(
       map(resData=>{
         console.log(resData);
-        var index=1;
         const myapplications = [];
-        resData.map(elem=>{
-          myapplications.push(new Application(elem.numberYearsExperience,elem.workingExperience,elem.education,
-            elem.applicationDate,elem.applicantId,elem.postingId,index));
-            index++;
-        })
+        if(resData){
+          resData.data.map(elem=>{
+            myapplications.push(new Application(elem.attributes.experience,elem.attributes.work_experience,elem.attributes.education,
+              elem.attributes.date_applied,elem.attributes.user_id,elem.attributes.posting_id,elem.id));
+          })
+        }
         console.log(myapplications);
         return myapplications;
     }),
@@ -196,18 +343,32 @@ export class JobsPortalService {
     })
     )
   }
-  fetchPostingsApplications(postingId:number){
-    return this.http.get<Application[]>(`${environment.apiUrl}/applications/posting/${postingId}`)
+  fetchPostingsApplications(postingId:string){
+    let bearer=''
+    this.authService.token.pipe(
+      take(1),
+      map(token=>{
+        if (!token){
+          throw new Error('Token not found');
+        }
+        bearer=token
+      })
+    ).subscribe();
+    return this.http.get<any>(`${environment.apiUrl}/application/applications/posting/${postingId}`,{
+      headers: new HttpHeaders()
+        .set('Authorization',  `Bearer ${bearer}`)
+    })
     .pipe(
       map(resData=>{
         console.log(resData);
-        var index=1;
         const applications = [];
-        resData.map(elem=>{
-          applications.push(new Application(elem.numberYearsExperience,elem.workingExperience,elem.education,
-            elem.applicationDate,elem.applicantId,elem.postingId,index));
-            index++;
-        })
+        if(resData){
+          resData.data.map(elem=>{
+          applications.push(new Application(elem.attributes.experience,elem.attributes.work_experience,elem.attributes.education,
+            elem.attributes.date_applied,elem.attributes.user_id,elem.attributes.posting_id,elem.id));
+          })
+        }
+
         console.log(applications);
         return applications;
     }),
@@ -217,14 +378,27 @@ export class JobsPortalService {
     )
   }
 
-  onDeleteApplication(id:number){
+  onDeleteApplication(id:string){
+    let bearer=''
+    this.authService.token.pipe(
+      take(1),
+      map(token=>{
+        if (!token){
+          throw new Error('Token not found');
+        }
+        bearer=token
+      })
+    ).subscribe();
     console.log("want to delete application with id:"+id);
-    return this.http.delete<AuthResponseData>(`${environment.apiUrl}/applications/${id}`)
+    return this.http.delete<any>(`${environment.apiUrl}/application/applications/${id}`,{
+      headers: new HttpHeaders()
+        .set('Authorization',  `Bearer ${bearer}`)
+    })
     .pipe(
       catchError(this.handleError),
       tap(resData => {
         console.log(resData);
-        this.handleOperatio(resData);
+        //this.handleOperatio(resData);
       })
     );
   }

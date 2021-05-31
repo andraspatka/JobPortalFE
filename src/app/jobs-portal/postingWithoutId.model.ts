@@ -1,6 +1,6 @@
 
 export class PostingWithoutId {
-  public postedById: number;
+  public postedById: string;
   public postedAt: string;
   public deadline:string;
   public numberOfViews:number;
@@ -9,7 +9,7 @@ export class PostingWithoutId {
   public categoryId:number;
   public requirements: string;
 
-  constructor(postedById: number, postedAt:string,deadline:string,
+  constructor(postedById: string, postedAt:string,deadline:string,
     nrOfView:number,name:string,description:string,categoryId:number,requirements:string) {
     this.name = name;
     this.postedById=postedById;

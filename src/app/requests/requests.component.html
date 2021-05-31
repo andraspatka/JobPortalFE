@@ -2,14 +2,14 @@
 <table>
   <tr *ngFor="let reqElem of myrequests; let i = index">
     <td>
-      <h3 class="list-group-item-heading">{{ reqElem.requestedByFirstName }} &#45; {{reqElem.requestedByLastName}}</h3>
-        <p class="list-group-item-text">{{reqElem.requestedByEmail }}</p>
+      <h3 class="list-group-item-heading">Requested by: {{ reqElem.requested_by }} &#45; Company: {{reqElem.company}}</h3>
+        <p class="list-group-item-text">{{reqElem.created_at | date : 'dd/MM/yyyy'}}</p>
         <p class="list-group-item-text">{{reqElem.status }}</p>
       </td>
-    <td><button class="btn" (click)="onAccept(reqElem.id)"
-      type="button"> Accept Posting</button> </td>
-      <td><button class="btn" (click)="onDecline(reqElem.id)"
-        type="button"> Decline Posting</button> </td>
+    <td><button class="btn" (click)="onAccept(reqElem.requested_by)"
+      type="button"> Accept Request</button> </td>
+      <td><button class="btn" (click)="onDecline(reqElem.requested_by)"
+        type="button"> Decline Request</button> </td>
   </tr>
 </table>
 <br>

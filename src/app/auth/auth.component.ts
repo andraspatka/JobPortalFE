@@ -6,8 +6,7 @@ import {AuthService} from './auth.service';
 import {Company} from "./company.model";
 
 export interface AuthResponseData {
-  status: string,
-  body: string
+  token: string
 }
 
 @Component({
@@ -50,17 +49,17 @@ export class AuthComponent implements OnInit {
     const firstname = form.value.firstname;
     const lastname = form.value.lastname;
     const company = form.value.selectedCompany;
-    let authObs: Observable<AuthResponseData>;
+    let authObs: Observable<any>;
     this.isLoading = true;
 
     if (this.isLoginMode) {
       authObs = this.authService.login(email, password);
       authObs.subscribe(
         resData => {
-          if (resData.status !== "OK") {
-            this.error = resData.body;
+          if (resData.token === "") {
+            this.error = "Token is empty";
           } else {
-            this.message = resData.body;
+            this.message = "Token is received successfully";
           }
           this.isLoading = false;
           this.router.navigate(['/jobs-portal']);
@@ -74,10 +73,10 @@ export class AuthComponent implements OnInit {
       authObs = this.authService.signup(email, password, firstname, lastname, company);
       authObs.subscribe(
         resData => {
-          if (resData.status !== "OK") {
-            this.error = resData.body;
+          if (!resData) {
+            this.error = "Error with received token. Might be null";
           } else
-            this.message = resData.body;
+            this.message = "Token successfully received";
           this.isLoading = false;
           this.router.navigate(['/auth']);
         },

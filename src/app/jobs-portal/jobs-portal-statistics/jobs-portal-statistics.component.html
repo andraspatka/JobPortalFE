@@ -1,0 +1,15 @@
+<h2>Statistics</h2>
+
+<table class="center">
+  <tr *ngFor="let appElem of statistics; let i = index">
+    <td>
+      <h3 class="list-group-item-heading">TYPE: {{ appElem.type }}</h3>
+        <p class="list-group-item-text">DETAILS: {{appElem.details }}</p>
+      </td>
+      <td>
+        <button class="btn" (click)="onSeeCharts()">See Main Events Chart</button>
+        <button (click)="goBack()">Go Back</button>
+      </td>
+  </tr>
+</table>
+<br>

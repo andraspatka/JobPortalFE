@@ -1,21 +1,21 @@
 
 export class Application {
-  public id?:number;
-  public  numberYearsExperience: number;
-  public workingExperience: string;
+  public id?:string;
+  public  experience: number;
+  public work_experience: string;
   public education: string;
-  public applicationDate:string;
-  public applicantId:number;
-  public postingId:number;
+  public date_applied:string;
+  public user_id:string;
+  public posting_id:string;
 
   constructor(numberYearsExperience: number,workingExperience: string, education: string,
-    applicationDate:string, applicantId:number,postingId:number,id?:number) {
+    applicationDate:string, applicantId:string,postingId:string,id?:string) {
       this.id=id;
-      this.numberYearsExperience = numberYearsExperience;
-      this.workingExperience = workingExperience;
+      this.experience = numberYearsExperience;
+      this.work_experience = workingExperience;
       this.education = education;
-      this.applicationDate = applicationDate;
-      this.applicantId = applicantId;
-      this.postingId = postingId;
+      this.date_applied = applicationDate;
+      this.user_id= applicantId;
+      this.posting_id = postingId;
   }
 }

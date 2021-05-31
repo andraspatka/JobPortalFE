@@ -1,0 +1,17 @@
+<h2>Main Events Chart</h2>
+<!--
+<div *ngIf="myChart">
+  <canvas id="yourCavasId">{{ myChart }}</canvas>
+</div> -->
+<table class="center">
+  <tr *ngFor="let item of labels; let i = index">
+    <td>
+      <h3 class="list-group-item-heading">Name Event: {{ item.label  }}</h3>
+        <p class="list-group-item-text">Appearence: {{item.app }}</p>
+      </td>
+      <td>
+        <button (click)="goBack()">Go Back</button>
+      </td>
+  </tr>
+</table>
+<br>

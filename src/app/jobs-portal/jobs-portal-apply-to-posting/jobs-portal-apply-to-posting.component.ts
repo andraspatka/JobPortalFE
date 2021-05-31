@@ -22,18 +22,18 @@ export class JobsPortalApplyToPostingComponent implements OnInit,OnDestroy {
     private datePipe: DatePipe,
     private router:Router) { }
 
-    postinId: number;
-    applicantId:number;
+    postinId: string;
+    applicantId: string;
     applicationForm: FormGroup;
     userSubscription:Subscription;
     applySubscription:Subscription;
   ngOnInit() {
     this.route.params.subscribe((params: Params) => {
-      this.postinId = +params['id'];
+      this.postinId = params['id'];
     });
     this.initForm();
     this.userSubscription= this.authService.user.subscribe(user => {
-      this.applicantId = +user.id;
+      this.applicantId = user.id;
     });
   }
 

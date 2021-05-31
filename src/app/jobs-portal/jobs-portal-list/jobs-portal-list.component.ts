@@ -37,7 +37,7 @@ export class JobsPortalListComponent implements OnInit,OnDestroy {
   }
 
 
-  onDeletePosting(i:number){
+  onDeletePosting(i:string){
    this.jobsPortalService.deletePosting(i).subscribe(()=>{
      this.jobsPortalService.fetchPostings().subscribe();
    })
@@ -60,6 +60,7 @@ export class JobsPortalListComponent implements OnInit,OnDestroy {
 
   }
   onSeeAplicationsForThisPosting(id:number){
+    console.log(id)
     this.router.navigate(['applications-for-posting',id]);
   }
 }

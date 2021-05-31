@@ -62,4 +62,7 @@ export class HeaderComponent implements OnInit {
   onSendSeeMyApplications(){
     this.router.navigate(['/myapplications',this.userId]);
   }
+  onSendSeeStatistics(){
+    this.router.navigate(['/statistics']);
+  }
 }
